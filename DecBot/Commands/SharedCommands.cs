@@ -23,18 +23,4 @@ partial class DecBot4
             await SendMessage(channel, message);
         }
     }
-
-    private async Task<bool> GetPrivilegedUser(string userId, string protocol)
-    {
-        using (Connection.Open())
-        using (var sqlCommand = new MySqlCommand() { Connection = Connection })
-        {
-            using var reader = await sqlCommand.ExecuteFullCommandAsync(SharedSqlCommands.GetPrivilegedUser, ("@user_id", userId), ("@protocol", protocol));
-
-            if (!await reader.ReadAsync() || !reader.HasRows)
-                return false;
-
-            return true;
-        }
-    }
 }

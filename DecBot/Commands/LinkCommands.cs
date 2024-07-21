@@ -29,7 +29,7 @@ partial class DecBot4
 
 		if (parameters.Count != 2)
 		{
-			await SendMessage(channel, "Syntax: !link <link> <main name>.");
+			await SendMessage(channel, "Syntax: `!link <link> <main name>`");
 			return;
 		}
 		var main = parameters[1].ToLowerInvariant();
@@ -152,7 +152,7 @@ partial class DecBot4
 
 		if (parameters.Count != 1)
 		{
-			await SendMessage(channel, "Syntax: !unlink <name>.", messageSender);
+			await SendMessage(channel, "Syntax: `!unlink <name>`", messageSender);
 			return;
 		}
 
@@ -186,7 +186,7 @@ partial class DecBot4
 	{
 		if (parameters.Count > 1)
 		{
-            await SendMessage(channel, "Syntax: !links <name>.");
+            await SendMessage(channel, "Syntax: `!links <name>`");
 			return;
 		}
 

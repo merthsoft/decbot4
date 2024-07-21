@@ -26,7 +26,7 @@ partial class DecBot4
 	{
 		if (parameters.Count > 1)
 		{
-			await SendMessage(channel, "Syntax: !karma <name>.");
+			await SendMessage(channel, "Syntax: `!karma <name>`");
 			return;
 		}
 

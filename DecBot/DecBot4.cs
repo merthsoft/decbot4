@@ -69,6 +69,8 @@ public partial class DecBot4
             { "!addquote", AddQuote },
             { "!qdel", DeleteQuote },
             { "!site", SaySite },
+            // Privs
+            { "!addprivs", AddPrivilegedUser }
         };
     }
 
@@ -220,7 +222,7 @@ public partial class DecBot4
                 if (ChatCommandProcessors.TryGetValue(command, out var func) && func != null)
                 {
                     var hasPrivs = await GetPrivilegedUser(message.UserId, message.Protocol);
-                    LogInformation?.Invoke($"User `{username}` on `{gateway}` invoked command `{command.ToString()}` (userId: `{message.UserId}` protocol: `{message.Protocol}` hasPrivs `{hasPrivs}`)");
+                    LogInformation?.Invoke($"User `{username}` on `{gateway}` invoked command `{command.ToString()}` (userId: `{message.UserId}` protocol: `{message.Protocol}` hasPrivs: `{hasPrivs}`)");
                     await func.Invoke(username, gateway, hasPrivs, parameters);
                 }
             }
