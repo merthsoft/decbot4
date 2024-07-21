@@ -27,7 +27,7 @@ partial class DecBot4
             sqlCommand.Parameters.AddWithValue("@name", messageSender);
 
             sqlCommand.ExecuteNonQuery();
-            await SendMessage(channel, "Deleted quote #{0}.", id);
+            await SendMessage(channel, "Deleted quote `#{0}`.", id);
         }
     }
 
@@ -47,7 +47,7 @@ partial class DecBot4
             messageSender = await getLinkedName(sqlCommand, messageSender) ?? messageSender;
 
             await sqlCommand.ExecuteFullUpdateAsync(QuoteSqlCommands.AddQuote, ("@name", messageSender), ("@quote", text.Trim()));
-            await SendMessage(channel, "Added quote #{0}.", sqlCommand.LastInsertedId);
+            await SendMessage(channel, "Added quote `#{0}`.", sqlCommand.LastInsertedId);
         }
     }
 
@@ -77,7 +77,7 @@ partial class DecBot4
                 await SendMessage(channel, q.ToString());
             }
             else
-                await SendMessage(channel, "No quote found with id {0}.", quoteNumber);
+                await SendMessage(channel, "No quote found with id `{0}`.", quoteNumber);
         }
     }
 

@@ -5,8 +5,12 @@ namespace Cemetech.DecBot4;
 
 internal class Program
 {
+    static DecBotConfig DecBotConfig = null!; // Program will exit if this can't be initialized
+
     static void LogMessage(string message)
     {
+        if (!DecBotConfig.Bot.LogMessages)
+            return;
         var color = Console.ForegroundColor;
         Console.ForegroundColor = ConsoleColor.DarkGray;
         Console.WriteLine(message);
@@ -39,8 +43,7 @@ internal class Program
 
     static async Task<int> Main(string[] args)
     {
-        LogInformation("Started.");
-        DecBotConfig? config = null;
+        LogInformation("Reading settings.");
         var settingsLocation = args.Length == 1 ? args[0] : "decbot.json";
         try
         {
@@ -57,9 +60,9 @@ internal class Program
                 return ErrorCodes.SettingsFileNotRead;
             }
 
-            config = await JsonSerializer.DeserializeAsync(configStream, jsonTypeInfo: DecBotConfigSourceGenerationContext.Default.DecBotConfig);
+            DecBotConfig = (await JsonSerializer.DeserializeAsync(configStream, jsonTypeInfo: DecBotConfigSourceGenerationContext.Default.DecBotConfig))!;
 
-            if (config == null)
+            if (DecBotConfig == null)
             {
                 LogError($"Could not deserialize config file {settingsLocation}.");
                 return ErrorCodes.SettingsFileNotDeserialzed;
@@ -71,7 +74,7 @@ internal class Program
 
         LogInformation("Initializing DecBot.");
 
-        var decBot = new DecBot.DecBot4(config,
+        var decBot = new DecBot.DecBot4(DecBotConfig,
             logError: LogError,
             logInformation: LogInformation,
             logWarning: LogWarning,
@@ -83,13 +86,13 @@ internal class Program
             return ErrorCodes.DecBotCouldNotInitialize;
         }
 
-        LogInformation("DecBot initialized. Starting processing loop.");
+        LogInformation($"DecBot initialized. Starting processing loop with logMessages {DecBotConfig.Bot.LogMessages}");
         while (true)
         {
             try
             {
                 await decBot.ProcessMessageQueue();
-                await Task.Delay(config.Bot.ReadTimeout);
+                await Task.Delay(DecBotConfig.Bot.ReadTimeout);
             } catch (Exception ex)
             {
                 LogError($"Exception during message processing: {ex}");

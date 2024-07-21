@@ -57,7 +57,7 @@ partial class DecBot4
 			var linkedName = await getLinkedName(sqlCommand, link);
 			if (linkedName != null)
 			{
-				await SendMessage(channel, "Link {0} already exists as {1}.", link, linkedName);
+				await SendMessage(channel, $"Link `{link}` already exists as `{linkedName}`.");
 				return;
 			}
 			// Get the old name's score for tracking
@@ -71,17 +71,17 @@ partial class DecBot4
 			}
 			if (fname == main)
 			{
-				await SendMessage(channel, "Link {0} => {1} added.", link, main);
+				await SendMessage(channel, "Link `{0}` => `{1}` added.", link, main);
 			}
 			else
 			{
-				await SendMessage(channel, "Link {0} => {1} => {2} added.", link, main, fname);
+				await SendMessage(channel, "Link `{0}` => `{1}` => `{2}` added.", link, main, fname);
 			}
 			// Update associated links
 			rows = await sqlCommand.ExecuteFullUpdateAsync(LinkSqlCommands.UpdateLinks, ("@fname", fname), ("@link", link));
 			if (rows > 0)
 			{
-				await SendMessage(channel, "Had to update {0} links.", rows);
+				await SendMessage(channel, "Had to update `{0}` links.", rows);
 			}
 			// Check if there's a score in the DB, and update if necessary.
 			await UpdateScores(sqlCommand, channel, link, fname, oldScore);
@@ -95,7 +95,7 @@ partial class DecBot4
 		var rows = await sqlCommand.ExecuteFullUpdateAsync(QuoteSqlCommands.UpdateQuoteLink, ("@fname", fname), ("@name", link));
 		if (rows > 0)
 		{
-			await SendMessage(channel, "Had to update {0} quotes.", rows);
+			await SendMessage(channel, "Had to update `{0}` quotes.", rows);
 		}
 	}
 
@@ -119,7 +119,7 @@ partial class DecBot4
 				rows = await sqlCommand.ExecuteFullUpdateAsync(KarmaSqlCommands.TrackScoreChange, ("@name", fname), ("@change", oldScore));
 				if (rows == 0)
 				{
-					await SendMessage(channel, "Could not add tracking row for {0}.", fname);
+					await SendMessage(channel, "Could not add tracking row for `{0}`.", fname);
 				}
 				// Delete the link's score
 				rows = await sqlCommand.ExecuteFullUpdateAsync(KarmaSqlCommands.DeleteScore, ("@link", link));
@@ -131,7 +131,7 @@ partial class DecBot4
 				rows = await sqlCommand.ExecuteFullUpdateAsync(KarmaSqlCommands.TrackScoreChange, ("@name", link), ("@change", oldScore));
 				if (rows == 0)
 				{
-					await SendMessage(channel, "Could not add tracking row for {0}.", link);
+					await SendMessage(channel, "Could not add tracking row for `{0}`.", link);
 				}
 			}
 			catch
@@ -165,7 +165,7 @@ partial class DecBot4
 			var old = await getLinkedName(sqlCommand, name);
 			if (old == null)
 			{
-				await SendMessage(channel, "Link {0} does not exist.", name);
+				await SendMessage(channel, "Link `{0}` does not exist.", name);
 				return;
 			}
 			// Remove it
@@ -173,10 +173,10 @@ partial class DecBot4
             switch (rows)
             {
                 case >= 1:
-                    await SendMessage(channel, "Link: {0} => {1} removed.", name, old);
+                    await SendMessage(channel, "Link: `{0}` => `{1}` removed.", name, old);
                     break;
                 default:
-                    await SendMessage(channel, "Link {0} does not exist.", name);
+                    await SendMessage(channel, "Link `{0}` does not exist.", name);
                     break;
             }
         }
@@ -219,16 +219,16 @@ partial class DecBot4
 				links.Length -= 2;
 				if (name == checkedName)
 				{
-                    await SendMessage(channel, "{0} is linked to: {1}.", name, links);
+                    await SendMessage(channel, "`{0}` is linked to: `{1}`.", name, links);
 				}
 				else
 				{
-					await SendMessage(channel, "{0} ({2}) is linked to: {1}.", name, links, checkedName);
+					await SendMessage(channel, "`{0}` (`{2}`) is linked to: `{1}`.", name, links, checkedName);
 				}
 			}
 			else
 			{
-				await SendMessage(channel, "{0} has no links.", checkedName);
+				await SendMessage(channel, "`{0}` has no links.", checkedName);
 			}
 		}
 	}

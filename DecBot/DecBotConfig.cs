@@ -20,7 +20,8 @@ public record BotConfig(
     [property: JsonPropertyName("site")] string Site,
     [property: JsonPropertyName("readTimeout")] int ReadTimeout,
     [property: JsonPropertyName("nickname")] string Nickname,
-    [property: JsonPropertyName("avatar")] string Avatar
+    [property: JsonPropertyName("avatar")] string Avatar,
+    [property: JsonPropertyName("logMessages")] bool LogMessages
 );
 
 public record DatabaseConfig(

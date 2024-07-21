@@ -30,7 +30,7 @@ class Quote
 
 	public override string ToString()
 	{
-		return string.Format("{0}: {1} [Added: {2} at {3:yyyy.MM.dd HH:mm:ss} UTC]", Id, FormattedText, AddedBy, Timestamp);
+		return string.Format("{0}: `{1}` [Added: `{2}` at `{3:yyyy.MM.dd HH:mm:ss}` UTC]", Id, FormattedText, AddedBy, Timestamp);
 		//return string.Format("{0}: {1} [Added: {2} at {3} UTC; score: {4}]", Id, Text.Trim(), AddedBy, Timestamp, ScoreUp - ScoreDown);
 	}
 }

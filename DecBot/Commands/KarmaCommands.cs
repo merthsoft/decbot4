@@ -46,11 +46,11 @@ partial class DecBot4
 			var (name, score) = await getKarma(sqlCommand, checkedName);
 			string message = "";
 			if (name == checkedName)
-				message = $"{name} has a score of {score}.";
+				message = $"`{name}` has a score of `{score}`.";
 			else if (name != null)
-				message = $"{name} ({checkedName}) has a score of {score}.";
+				message = $"`{name}` (`{checkedName}`) has a score of `{score}`.";
 			else
-                message = $"{checkedName} has a score of 0.";
+                message = $"`{checkedName}` has a score of `0`.";
 
 			await SendMessage(channel, message);
 		}

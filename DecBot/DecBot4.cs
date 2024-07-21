@@ -117,7 +117,7 @@ public partial class DecBot4
             }
 
             LogInformation?.Invoke("Checking MatterBridge health.");
-            if (!await CheckMatterbridge(cancellationToken))
+            if (!await CheckMatterBridge(cancellationToken))
             {
                 LogInformation?.Invoke("MatterBridge is not up.");
                 return false;
@@ -151,7 +151,7 @@ public partial class DecBot4
 
         return true;
     }
-    private async Task<bool> CheckMatterbridge(CancellationToken cancellationToken)
+    private async Task<bool> CheckMatterBridge(CancellationToken cancellationToken)
     {
         using var client = new HttpClient(handler: HttpClientHandler, false);
         client.BaseAddress = new(Config.MatterBridge.Host);
@@ -260,14 +260,21 @@ public partial class DecBot4
                 var rows = await Command.ExecuteFullUpdateAsync(KarmaSqlCommands.InsertScore, ("@fname", name), ("@score", score));
                 if (rows == 0)
                 {
-                    await SendMessage(channel, "Could not update score for {0}.", name);
+                    var error = string.Format("Could not update score for {0}.", name);
+                    LogError?.Invoke(error);
+                    await SendMessage(channel, error);
                     return;
+                } else
+                {
+                    LogInformation?.Invoke($"User `{messageSender}` on gateway `{channel}` incremented the karma for `{name}` to `{score}`.");
                 }
                 // Track the score change
                 rows = await Command.ExecuteFullUpdateAsync(KarmaSqlCommands.TrackScoreChange, ("@name", name), ("@change", change));
                 if (rows == 0)
                 {
-                    await SendMessage(channel, "Could not add tracking row for {0}.", name);
+                    var error = string.Format("Could not add tracking row for {0}.", name);
+                    LogError?.Invoke(error);
+                    await SendMessage(channel, error);
                 }
             }
         }
