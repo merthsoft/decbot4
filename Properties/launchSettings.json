@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Cemetech.DecBot4.ConsoleApp": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

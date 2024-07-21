@@ -1,0 +1,19 @@
+{
+  "Database": {
+    "server": "localhost",
+    "user": "decbot",
+    "password": "decbot",
+    "database": "decbot"
+  },
+  "MatterBridge": {
+    "host": "http://127.0.0.1:4242",
+    "token": "shaun",
+    "nicknameRegex": "\\[.*\\] <(.*)>"
+  },
+  "Bot": {
+    "site": "https://decbot.cemetech.net/",
+    "readTimeout": 250,
+    "nickname": "DecBot4",
+    "avatar": "https://merthsoft.com/decbot.png"
+  }
+}
